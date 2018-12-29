@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -33,6 +36,15 @@ public class UserRepositoryTest {
         Assert.assertEquals(3, userRepository.findAll().size());
         Assert.assertEquals("bb123456", userRepository.findByNameOrEmail("bb", "bb").getNickName());
         userRepository.delete(userRepository.findByName("aa1"));
+    }
+
+    @Test
+    public void testJpa() throws Exception {
+        int i = 1,size = 1;
+        Sort sort = new Sort(Sort.Direction.DESC,"id");
+        Pageable pageable = new PageRequest(i,size,sort);
+        userRepository.findAll(pageable);
+
     }
 
 
